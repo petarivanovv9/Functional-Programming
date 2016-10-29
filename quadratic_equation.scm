@@ -1,0 +1,20 @@
+(define (solve a b c)
+  (define (solver-lin)
+    (cond ((and (= b 0) (= c 0)) "every x")
+           ((= b 0) "no roots!")
+           (else (/ (- c) b))
+    )
+  )
+  
+  (define D (- (* b b) (* 4 (* a c))))
+  
+  (if (= a 0) (solve-lin)
+      (if (> D 0)
+          (cons 
+                (/ (+ (- b) (sqrt D)) (* 2 a))
+                (/ (- (- b) (sqrt D)) (* 2 a))
+          )
+          (if (< D 0) "no roots!" (/ (- b) (* 2 a)))
+       )
+   )
+)
