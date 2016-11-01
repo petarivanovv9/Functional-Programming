@@ -104,3 +104,43 @@
 (define cons^ (flip cons))
 ; > (cons^ 2 3)
 ; (3 . 2)
+
+;;; problem 11
+;;; функция (curry-3 f), която връща curried вариант на триместна функция f
+
+(define (curry-3 f)
+  (lambda (x) (lambda (y) (lambda (z) (f x y z))))
+)
+
+(define +. (curry-3 +))
+; > (((+. 1) 2) 3)
+; 6
+
+;;; problem 12
+;;; функция (compose f g), която връща функцията f∘g
+
+(define (compose f g)
+  (lambda (x) (f (g x)))
+)
+
+(define f (compose (lambda (x) (+ x 1)) (lambda (x) (* x x)))) ;  x^2 + 1
+; > (f 4)
+; 17
+; > (f 7)
+; 50
+
+;;; problem 13
+;;; функция (complement p), която приема предикат и връща неговото отрицание
+
+(define (complement p)
+  (lambda (x) (not (p x)))
+)
+
+(define (less-than-5? x) (< x 5))
+(define f (complement less-than-5?))
+; > (f 3)
+; #f
+; > (f 5)
+; #t
+; > (f 7)
+; #t
