@@ -13,8 +13,8 @@
       0
       (+ (/ 1 (fact a)) (sum-e (+ a 1) b))))
 
-; Напишете функция от по-висок ред (sum term a next b), 
-; която улавя общото от трите дефиниции и параметризира специфичното
+;;; Напишете функция от по-висок ред (sum term a next b), 
+;;; която улавя общото от трите дефиниции и параметризира специфичното
 
 (define (identity x) x)
 (define (1+ x) (+ 1 x))
@@ -38,13 +38,13 @@
 (define (sum-e a b)
   (sum (lambda (x) (/ 1 (fact x))) a 1+ b))
 
-; problem 3
+;;; problem 3
 
 ;(define (integral f a b delta)  
 ;
 ;)
 
-; problem 4
+;;; problem 4
 
 (define (sum2 term a next b)
   (define (iter current result)
@@ -59,7 +59,7 @@
 ; > (sum2 + 1 1+ 10)
 ; 55
 
-; problem 7
+;;; problem 7
 
 (define (accumulate op nv a b term next)
   (if (> a b)
@@ -82,3 +82,5 @@
 
 ; > (filtered-accumulate + 0 odd-2? identity 1 1+ 10)
 ; 25
+
+;;; problem 9
