@@ -83,4 +83,24 @@
 ; > (filtered-accumulate + 0 odd-2? identity 1 1+ 10)
 ; 25
 
-;;; problem 9
+;;; problem 9, (constantly c) that returns f(x) = c
+
+(define (constantly c)
+  (lambda (x) c)
+)
+
+(define forever-21 (constantly 21))
+; > (forever-21 29)
+; 21
+; > (forever-21 21)
+; 21
+
+;;; problem 10
+
+(define (flip f)
+  (lambda (x y) (f y x))
+)
+
+(define cons^ (flip cons))
+; > (cons^ 2 3)
+; (3 . 2)
