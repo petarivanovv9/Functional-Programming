@@ -99,3 +99,17 @@
 ; > (append-3 '(8 7 6 5 4 3 2 1) 55)
 ; (8 7 6 5 4 3 2 1 55)
 
+;;; check if element is in list
+
+(define (exists? x l)
+  (cond 
+    ((null? l) #false)
+    ((= (car l) x) #true)
+    (else (exists? x (cdr l)))
+  )
+)
+
+; > (exists? 4 '(1 2 3 5))
+; #f
+; > (exists? 4 '(1 2 3 4 5 4 5))
+; #t
