@@ -55,3 +55,15 @@
   )
   (rev-acc l '())
 )
+
+;;; lenght of list with accumulator
+
+(define (len-acc l)
+  (define (acc op nv start pred next)
+    (if (pred start)
+        nv
+        (acc op (next nv) (op start) pred next)
+    )
+  )
+  (acc cdr 0 l (lambda (x) (null? x)) (lambda (x) (+ x 1)))
+)
