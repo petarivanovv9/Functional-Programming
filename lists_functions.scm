@@ -67,3 +67,35 @@
   )
   (acc cdr 0 l (lambda (x) (null? x)) (lambda (x) (+ x 1)))
 )
+
+;;; append an element in the beginnig of the list
+
+(define (pre-append elem l)
+  (if (null? l)
+      elem
+      (cons elem l)
+  )
+)
+
+;;; append an element in the end of the list
+
+(define (append-2 elem l)
+  (if (null? l)
+      (list elem)
+      (rev (cons elem (rev l)))
+  )
+)
+
+; > (append-2 1 '(4 5 6 1 2))
+; (4 5 6 1 2 1)
+
+(define (append-3 elem l)
+  (if (null? l)
+      (list elem)
+      (cons (car l) (append-3 elem (cdr l)))
+  )
+)
+
+; > (append-3 '(8 7 6 5 4 3 2 1) 55)
+; (8 7 6 5 4 3 2 1 55)
+
