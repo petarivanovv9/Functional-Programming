@@ -140,3 +140,17 @@
 ; 1
 ; > (my-list-ref '(1 2 3 4) 3)
 ; 4
+
+;;; append two lists
+
+(define (append-two-lists l1 l2)
+  (if (null? l1) 
+      l2
+      (cons (car l1) (append-two-lists (cdr l1) l2))
+  )
+)
+
+; (append-two-lists '(1 2 3) '(4 5 6))
+; (1 2 3 4 5 6)
+; (append-two-lists '() '(4 5 6))
+; (4 5 6)
