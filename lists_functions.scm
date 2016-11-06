@@ -130,3 +130,13 @@
 ; > (my-list-tail '(1 2 3 4 5) 0)
 ; (1 2 3 4 5)
 
+; n-ти елемент на <списък> (от 0)
+
+(define (my-list-ref l n)
+  (car (my-list-tail l n))
+)
+
+; > (my-list-ref '(1 2 3 4) 0)
+; 1
+; > (my-list-ref '(1 2 3 4) 3)
+; 4
