@@ -26,3 +26,18 @@
 ; (2 4 6 8)
 ; > (my-filter (lambda (x) x) '(1 2 3 4 5 6 7 8 9))
 ; (1 2 3 4 5 6 7 8 9)
+
+;;; (remove lst val) - remove all val occurrences in the list
+
+(define (my-remove l val)
+  (cond 
+    ((null? l) '())
+    ((= (car l) val) (my-remove (cdr l) val))
+    (else (cons (car l) (my-remove (cdr l) val)))
+  )
+)
+
+; > (my-remove (list 1 2 1 3 1 4) 1)
+; (2 3 4)
+; (my-remove (list 1 2 1 3 1 4) 5)
+; (1 2 1 3 1 4)
