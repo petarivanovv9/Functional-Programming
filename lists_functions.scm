@@ -113,3 +113,20 @@
 ; #f
 ; > (exists? 4 '(1 2 3 4 5 4 5))
 ; #t
+
+;;; елементите на <списък> без първите n
+
+(define (my-list-tail l n)
+  (if (= n 0)
+      l
+      (my-list-tail (cdr l) (- n 1))
+  )
+)
+
+; > (my-list-tail '(1 2 3 4 5) 3)
+; (4 5)
+; > (my-list-tail '(1 2 3 4 5) 1)
+; (2 3 4 5)
+; > (my-list-tail '(1 2 3 4 5) 0)
+; (1 2 3 4 5)
+
