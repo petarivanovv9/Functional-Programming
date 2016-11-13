@@ -3,7 +3,7 @@
 (define (my-map f l)
   (if (null? l)
       '()
-     (cons (f (car l)) (my-map f (cdr l)))
+      (cons (f (car l)) (my-map f (cdr l)))
   )
 )
 
@@ -30,7 +30,7 @@
 ;;; (remove lst val) - remove all val occurrences in the list
 
 (define (my-remove l val)
-  (cond 
+  (cond
     ((null? l) '())
     ((= (car l) val) (my-remove (cdr l) val))
     (else (cons (car l) (my-remove (cdr l) val)))
