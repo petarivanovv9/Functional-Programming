@@ -101,7 +101,6 @@
 ; в дадена матрица m от цели числа има поне по едно число, кратно на k.
 
 ; Example: (checkMatrix? ‘((1 2 6) (3 8 9) (10 12 11)) 3) → #t
-
 ; Example: (checkMatrix? ‘((1 2 4) (3 8 9) (10 12 11)) 3) → #f
 
 (define (kratno-of-list k l)
@@ -114,4 +113,38 @@
 
 (define (checkMatrix? m k)
   (foldr (lambda (x y) (and x y)) #t (my-map (lambda (l) (kratno-of-list k l)) m))
+)
+
+;;; task 4
+; Да се напише функция (longestDescending­ l), която намира низходящо сортиран 
+; подсписък на списъка от числа l с максимална дължина. 
+; Ако съществуват няколко такива подсписъка, функцията да върне първия отляво надясно.
+; Упътване: Реализирайте помощна функция, която намира най-дългия низходящо сортиран префикс на даден списък.
+
+; Example: (longestDescending­ ‘(5 3 8 6 4 2 6 7 1)) → (8 6 4 2)
+; Example: (longestDescending­ ‘(1 2 3 4 5 6)) → (1)
+
+(define (desc-pref l)
+  (define (helper last-elem l)
+    (cond
+      ((null? l) '())
+      ((< (car l) last-elem) (cons (car l) (helper (car l) (cdr l))))
+      (else '())
+    )
+  )
+  (if (null? l)
+      '()
+      (cons (car l) (helper (car l) (cdr l)))
+  )
+)
+
+(define (longestDescending l)
+  (define (helper max-desc-list size l)
+    (cond
+      ((null? l) max-desc-list)
+      ((< (length max-desc-list) (length (desc-pref l))) (helper (desc-pref l) (length (desc-pref l)) (cdr l)))
+      (else (helper max-desc-list size (cdr l)))
+    )
+  )
+  (helper (desc-pref l) (length (desc-pref l)) l)
 )
