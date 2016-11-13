@@ -95,3 +95,23 @@
   (max-of-list (my-filter integer? (my-map (lambda (x) (max-of-list (filter-more-than-one x))) ll)))
   
 )
+
+;;; task 3
+; Да се напише функция (checkMatrix? m k) която проверява дали на всеки ред 
+; в дадена матрица m от цели числа има поне по едно число, кратно на k.
+
+; Example: (checkMatrix? ‘((1 2 6) (3 8 9) (10 12 11)) 3) → #t
+
+; Example: (checkMatrix? ‘((1 2 4) (3 8 9) (10 12 11)) 3) → #f
+
+(define (kratno-of-list k l)
+  (cond
+    ((null? l) #f)
+    ((= (remainder (car l) k) 0) #t)
+    (else (kratno-of-list k (cdr l)))
+  )
+)
+
+(define (checkMatrix? m k)
+  (foldr (lambda (x y) (and x y)) #t (my-map (lambda (l) (kratno-of-list k l)) m))
+)
