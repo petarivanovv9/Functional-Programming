@@ -114,3 +114,30 @@
 (define (checkMatrix m k)
  (not (foldr (lambda (x y) (or x y)) #f (map (lambda (l) (all-l-deliteli k l)) m)))
 )
+
+;;; task 4
+
+(define (asc-pref l)
+  (define (helper last-elem l)
+    (cond
+      ((null? l) '())
+      ((< last-elem (car l)) (cons (car l) (helper (car l) (cdr l))))
+      (else '())
+    )
+  )
+  (if (null? l)
+      '()
+      (cons (car l) (helper (car l) (cdr l)))
+  )
+)
+
+(define (longestAscending l)
+  (define (helper max-asc-list size l)
+    (cond
+      ((null? l) max-asc-list)
+      ((< (length max-asc-list) (length (asc-pref l))) (helper (asc-pref l) (length (asc-pref l)) (cdr l)))
+      (else (helper max-asc-list size (cdr l)))
+    )
+  )
+  (helper (asc-pref l) (length (asc-pref l)) l)
+)
