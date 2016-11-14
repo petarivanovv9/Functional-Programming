@@ -114,3 +114,10 @@
 (define (insertion-sort l)
   (foldr insert '() l)
 )
+
+(define (min-of-list l)
+  (if (null? l)
+      '()
+      (foldr min (car l) (cdr l))
+  )
+)
