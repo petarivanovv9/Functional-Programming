@@ -97,3 +97,20 @@
     )
   )
 )
+
+;;; task 3
+
+(define (all-l-deliteli k l)
+  (define (helper res k l)
+    (cond
+      ((null? l) res)
+      ((not (= (remainder k (car l)) 0)) (helper (cons (car l) res) k (cdr l)))
+      (else (helper res k (cdr l)))
+    )
+  )
+  (null? (helper '() k l))
+)
+
+(define (checkMatrix m k)
+ (not (foldr (lambda (x y) (or x y)) #f (map (lambda (l) (all-l-deliteli k l)) m)))
+)
