@@ -81,3 +81,18 @@
 ; (0 1 2 3 5 5 6 6 6 7 8 8 9)
 ; > (sel-sort (list 1 2 3 4))
 ; (1 2 3 4)
+
+
+;;; Helpul functions
+
+(define (all? pred? l)
+  (cond
+    ((null? l) #t)
+    ((not (pred? (car l))) #f)
+    (else (all? pred? (cdr l)))
+  )
+)
+
+(define (any? pred? l)
+  (not (all? (lambda (x) (not (pred? x))) l))
+)
