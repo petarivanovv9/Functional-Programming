@@ -96,3 +96,21 @@
 (define (any? pred? l)
   (not (all? (lambda (x) (not (pred? x))) l))
 )
+
+(define (foldr op nv l)
+  (if (null? l)
+      nv
+      (op (car l) (foldr op nv (cdr l)))
+  )
+)
+
+(define (insert val l)
+  (if (or (null? l) (< val (car l)))
+      (cons val l)
+      (cons (car l) (insert val (cdr l)))
+  )
+)
+
+(define (insertion-sort l)
+  (foldr insert '() l)
+)
