@@ -1,4 +1,4 @@
-# Generator of sentences / Генератор на изречения
+# Random Sentence Generator / Генератор на изречения
 
 ## Description
 
