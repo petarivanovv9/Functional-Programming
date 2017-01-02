@@ -1,5 +1,8 @@
 (#%require (only racket/base random))
 (#%require (only racket/base string-titlecase))
+;(#%require (only racket/base read-string))
+;(#%require (only racket/base read-bytes))
+
 
 ;(define temp 
 ;  (list 
@@ -7,11 +10,9 @@
 ;    (list "птиците" "д") (list "зелените" "о" "мн") (list "жаби" "п" "мн") 
 ;    (list "гледат" "с" "мн") (list "голямото" "о" "ср")))
 
-(define temp 
-  '( 
-    ("към небето" "д") ("куче" "п" "ср") ("лае" "с" "ед") 
-    ("птиците" "д") ("зелените" "о" "мн") ("жаби" "п" "мн") 
-    ("гледат" "с" "мн") ("голямото" "о" "ср")))
+(define temp '(("към небето" "д") ("куче" "п" "ср") ("лае" "с" "ед") 
+               ("птиците" "д") ("зелените" "о" "мн") ("жаби" "п" "мн") 
+               ("гледат" "с" "мн") ("голямото" "о" "ср")))
 
 ;(define temp 
 ;  (list 
@@ -62,6 +63,12 @@
     (cond ( (= n 0) (car l))
           ( else (nth-elem (- n 1) (cdr l))))))
 
+
+; reading input
+;(define temp (call-with-input-file "input.txt" read))
+;(define temp (file->lines "input.txt"))
+
+
 (define nouns (extractNouns temp))
 (define adjectives (extractAdjectives temp))
 (define adverbs (extractAdverbs temp))
@@ -90,6 +97,7 @@
   )
 )
 
+
 (define getRandomSentence
   (lambda ()
     (define noun (getNoun))
@@ -99,7 +107,14 @@
 
     (if (and (check-adj-noun adjective noun) (check-noun-verb noun verb))
         ;(apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
-        (apply string-append "" (append (append (list (string-titlecase (car (list (car adjective) " " (car noun))))) (cdr (list (car adjective) " " (car noun)))) (list " " (car verb) " " (car adverb) ".")))
+        ;(call-with-input-file some-file (lambda (out) (write "hello" out)))
+        (with-output-to-file 	 
+            "result.txt"
+            (lambda () (write (apply string-append "" (append (append (list (string-titlecase (car (list (car adjective) " " (car noun))))) (cdr (list (car adjective) " " (car noun)))) (list " " (car verb) " " (car adverb) "."))) 
+                                   
+                                   ))
+           #:exists `update
+          )
         (getRandomSentence))
   )
 )
