@@ -10,7 +10,7 @@
   (reverse (helper n (cons n '())))
 )
 
-;;; task 2
+;;; task 3
 (define (divisors n)
   (define (helper n k res)
     (cond 
