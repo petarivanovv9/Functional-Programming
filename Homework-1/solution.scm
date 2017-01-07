@@ -46,3 +46,23 @@
   (not (has-divisor? n (ceiling (sqrt n))))
 )
 
+;;; task 4
+; (intercalate '(2 4 6 8) 9) -> (2 9 4 9 6 9 8)
+(define (intercalate x xs)
+  (define (helper x xs res)
+    (cond
+      ((null? x) res)
+      ((null? (cdr x)) (helper (cdr x) xs (cons (car x) res)))
+      (else (helper (cdr x) xs (cons (list (car x) xs) res)))
+    )
+  )
+  (flatten (reverse (helper x xs '())))
+)
+
+(define (flatten l)
+  (cond 
+    ((null? l) '())
+    ((pair? l) (append (flatten (car l)) (flatten (cdr l))))
+    (else (list l))
+  )
+)
