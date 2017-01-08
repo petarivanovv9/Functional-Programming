@@ -80,7 +80,7 @@
 )
 
 
-(define getRandomSentence
+(define getRandomSentence-format1
   (lambda ()
     (define noun (getNoun))
     (define adjective (getAdjective))
@@ -88,25 +88,13 @@
     (define adverb (getAdverb))
 
     (if (and (check-adj-noun adjective noun) (check-noun-verb noun verb))
-        ;(apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
-        ;(apply string-append "" (append (append (list (string-titlecase (car (list (car adjective) " " (car noun))))) (cdr (list (car adjective) " " (car noun)))) (list " " (car verb) " " (car adverb) ".")))
-
-        ; (with-output-to-file
-        ;     "result.txt"
-        ;     (lambda ()
-        ;       (write
-        ;         (apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
-        ;       )
-        ;     )
-        ;     #:exists `update
-        ; )
         (apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
-        (getRandomSentence)
+        (getRandomSentence-format1)
     )
   )
 )
 
-(define getRandomSentence-2
+(define getRandomSentence-format2
   (lambda ()
     (define two-nouns (cons (getNoun) (getNoun)))
     (define two-adjectives (cons (getAdjective) (getAdjective)))
@@ -121,7 +109,26 @@
         (apply string-append "" (append
                                  (list (string-titlecase (car (car two-adjectives))) " " (car (car two-nouns)) " и " (car (cdr two-adjectives)) " " (car (cdr two-nouns)))
                                  (list " " (car verb) " " (car adverb) ".")))
-        (getRandomSentence-2)
+        (getRandomSentence-format2)
     )
   )
+)
+
+(define getRandomSentence
+  (lambda ()
+    (if (= (random 2) 0)
+        (getRandomSentence-format1)
+        (getRandomSentence-format2)
+    )
+  )
+  
+          ; (with-output-to-file
+        ;     "result.txt"
+        ;     (lambda ()
+        ;       (write
+        ;         (apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
+        ;       )
+        ;     )
+        ;     #:exists `update
+        ; )
 )
