@@ -4,19 +4,9 @@
 ;(#%require (only racket/base read-bytes))
 
 
-;(define temp 
-;  (list 
-;    (list "към небето" "д") (list "куче" "п" "ср") (list "лае" "с" "ед") 
-;    (list "птиците" "д") (list "зелените" "о" "мн") (list "жаби" "п" "мн") 
-;    (list "гледат" "с" "мн") (list "голямото" "о" "ср")))
-
-(define temp '(("към небето" "д") ("куче" "п" "ср") ("лае" "с" "ед") 
-               ("птиците" "д") ("зелените" "о" "мн") ("жаби" "п" "мн") 
+(define temp '(("към небето" "д") ("куче" "п" "ср") ("лае" "с" "ед")
+               ("птиците" "д") ("зелените" "о" "мн") ("жаби" "п" "мн")
                ("гледат" "с" "мн") ("голямото" "о" "ср")))
-
-;(define temp 
-;  (list 
-;    (list "към небето" "д") (list "куче" "п" "ср") (list "лае" "с" "ед") (list "зелените" "о" "мн")))
 
 (define (my-filter pred? l)
   (cond
@@ -34,15 +24,7 @@
 )
 
 (define (extractNouns l)
-  (define (helper l res)
-    (cond
-      ((null? l) res)
-      ((string=? (cadr (car l)) "п") (helper (cdr l) (cons (car l) res))) 
-      (else (helper (cdr l) res))
-    )
-  )
-  (helper l '())
-)
+  (my-filter (lambda (x) (if (string=? (cadr x) "п") #t #f)) l))
 
 (define (extractAdjectives l)
   (my-filter (lambda (x) (if (string=? (cadr x) "о") #t #f)) l))
@@ -60,8 +42,8 @@
 
 (define nth-elem
   (lambda (n l)
-    (cond ( (= n 0) (car l))
-          ( else (nth-elem (- n 1) (cdr l))))))
+    (cond ( (= n 0) (car l) )
+          ( else (nth-elem (- n 1) (cdr l))) )))
 
 
 ; reading input
@@ -88,7 +70,7 @@
 ;(member singular ... and (caddr verb))
 
 (define (check-noun-verb noun verb)
-  (if 
+  (if
    (or (and (or (or (string=? (caddr noun) "м") (string=? (caddr noun) "ж")) (string=? (caddr noun) "ср")) (string=? (caddr verb) "ед"))
        (and (string=? (caddr noun) "мн") (string=? (caddr verb) "мн"))
    )
@@ -107,14 +89,39 @@
 
     (if (and (check-adj-noun adjective noun) (check-noun-verb noun verb))
         ;(apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
-        ;(call-with-input-file some-file (lambda (out) (write "hello" out)))
-        (with-output-to-file 	 
-            "result.txt"
-            (lambda () (write (apply string-append "" (append (append (list (string-titlecase (car (list (car adjective) " " (car noun))))) (cdr (list (car adjective) " " (car noun)))) (list " " (car verb) " " (car adverb) "."))) 
-                                   
-                                   ))
-           #:exists `update
+        ;(apply string-append "" (append (append (list (string-titlecase (car (list (car adjective) " " (car noun))))) (cdr (list (car adjective) " " (car noun)))) (list " " (car verb) " " (car adverb) ".")))
+
+        ; (with-output-to-file
+        ;     "result.txt"
+        ;     (lambda ()
+        ;       (write
+        ;         (apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
+        ;       )
+        ;     )
+        ;     #:exists `update
+        ; )
+        (apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
+        (getRandomSentence)
+    )
+  )
+)
+
+(define getRandomSentence-2
+  (lambda ()
+    (define two-nouns (cons (getNoun) (getNoun)))
+    (define two-adjectives (cons (getAdjective) (getAdjective)))
+    (define verb (getVerb))
+    (define adverb (getAdverb))
+
+    (if (and
+          (and (not (string=? (car (car two-nouns)) (car (cdr two-nouns))))
+               (and (check-adj-noun (car two-adjectives) (car two-nouns)) (check-adj-noun (cdr two-adjectives) (cdr two-nouns)))
           )
-        (getRandomSentence))
+          (string=? (caddr verb) "мн"))
+        (apply string-append "" (append
+                                 (list (string-titlecase (car (car two-adjectives))) " " (car (car two-nouns)) " и " (car (cdr two-adjectives)) " " (car (cdr two-nouns)))
+                                 (list " " (car verb) " " (car adverb) ".")))
+        (getRandomSentence-2)
+    )
   )
 )
