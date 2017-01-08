@@ -116,19 +116,17 @@
 
 (define getRandomSentence
   (lambda ()
-    (if (= (random 2) 0)
-        (getRandomSentence-format1)
-        (getRandomSentence-format2)
+    (with-output-to-file
+      "result.txt"
+      (lambda ()
+        (write
+          (if (= (random 2) 0)
+            (getRandomSentence-format1)
+            (getRandomSentence-format2)
+          )
+        )
+      )
+      #:exists `replace
     )
   )
-  
-          ; (with-output-to-file
-        ;     "result.txt"
-        ;     (lambda ()
-        ;       (write
-        ;         (apply string-append "" (append (list (string-titlecase (car adjective)) " " (car noun)) (list " " (car verb) " " (car adverb) ".")))
-        ;       )
-        ;     )
-        ;     #:exists `update
-        ; )
 )
