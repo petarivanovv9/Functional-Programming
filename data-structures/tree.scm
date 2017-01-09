@@ -39,6 +39,11 @@
 (define (range a b)
   (accumulate cons '() a b (lambda (x) x) (lambda (x) (+ 1 x))))
 
+(define (foldr op nv l)
+  (if (null? l)
+      nv
+     (op (car l) (foldr op nv (cdr l)))))
+
 
 ; task 1
 (define (tree-sum t)
@@ -69,3 +74,36 @@
   (let ((height (tree-height t)))
     (map (lambda (i) (tree-level i t)) (range 0 (+ 1 height)))))
 
+; task 5
+(define (tree-map f t)
+  (if (empty-tree? t)
+      empty-tree
+      (make-tree (f (root-tree t))
+                 (tree-map f (left-tree t))
+                 (tree-map f (right-tree t)))))
+
+; task 6
+(define (tree->list t)
+  (if (empty-tree? t)
+      '()
+      (append (tree->list (left-tree t))
+              (list (root-tree t))
+              (tree->list (right-tree t)))))
+
+; task 7
+(define (bst-insert val t)
+  (cond
+    ((empty-tree? t) (make-leaf val))
+    ((< val (root-tree t)) (make-tree (root-tree t)
+                                      (bst-insert val (left-tree t))
+                                      (right-tree t)))
+    (else (make-tree (root-tree t)
+                     (left-tree t)
+                     (bst-insert val (right-tree t))))))
+
+; вмъкване на списък от стойности в дърво
+(define (list->tree lst)
+  (foldr bst-insert empty-tree lst))
+
+; task 8
+(define (tree-sort l) (tree->list (list->tree l)))
