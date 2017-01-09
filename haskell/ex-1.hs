@@ -69,3 +69,25 @@ fib'' 1 = 1
 fib'' n = fib'' (n-1) + fib'' (n-2)
 
 
+--Task 3
+
+--Функция, която брои колко корена има квадратно уравнение по дадени коефициенти
+
+countRoots :: (Ord a, Floating a) => a -> a -> a -> String
+countRoots a b c
+  | d < 0     = "no roots"
+  | d == 0    = "one root"
+  | otherwise = "two roots"
+  where d = b*b - 4*a*c
+
+
+--Task 4
+
+--Отделните аргументи може да са различни типове с различни ограничения.
+
+power :: (Num a, Integral b) => a -> b -> a
+power base n
+  | n == 0    = 1
+  | even n    = square (power base (div n 2))
+  | otherwise = base * square (power base (div n 2))
+  where square x = x*x
