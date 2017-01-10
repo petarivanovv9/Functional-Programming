@@ -91,3 +91,9 @@ power base n
   | even n    = square (power base (div n 2))
   | otherwise = base * square (power base (div n 2))
   where square x = x*x
+
+
+--Task 5
+
+cylinderVolume :: Floating a => a -> a -> a
+cylinderVolume r h = pi * r^2 * h
