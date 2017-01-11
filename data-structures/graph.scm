@@ -60,3 +60,28 @@
                                  g))
          '()
          l))
+
+
+; task 3
+
+; проверка за съдържание на път в граф
+; (contains-path? '(a b f e) G) -> #t
+; (contains-path? '(a c f e) G) -> #f
+(define (contains-path? path g)
+  (cond ((null? path) #t)
+        ((null? (cdr path)) (member? (car path) (vertices g)))
+        ((has-edge? (car path) (cadr path) g) (contains-path? (cdr path) g))
+        (else #f)))
+
+
+; task 4 - предшественици на връх
+
+(define (predecessors v g)
+  (filter (lambda (u) (has-edge? u v g)) (vertices g)))
+
+
+; task 7 - списък с всичките ребра на граф
+
+(define (edge-list g)
+  (define (make-pairs-single l) (map (lambda (v) (cons (car l) v)) (cdr l)))
+  (apply append (map make-pairs-single g)))
