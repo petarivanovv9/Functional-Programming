@@ -39,3 +39,19 @@ prime n = null [ d | d<-[2..(n-1)], mod n d == 0 ]
 --take 5 primes -> [2,3,5,7,11]
 primes :: Integral a => [a]
 primes = [ x | x<-[2..], prime x ]
+
+
+--Task 10
+
+--removeNth 3 [1..10] -> [1,2,4,5,7,8,10]
+removeNth :: Int -> [a] -> [a]
+removeNth _ [] = []
+removeNth n l = (take (n-1) l) ++ removeNth n (drop n l)
+
+
+--Task 11 - Сито на Ератостен
+
+--take 5 sieve -> [2,3,5,7,11]
+sieve :: [Int]
+sieve = helper [2..]
+  where helper (x:xs) = x : helper (removeNth x xs)
