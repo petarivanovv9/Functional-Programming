@@ -53,3 +53,58 @@ bam = combineStrMaxChar a b
 hoho = quickSort bam ( \ (c, _) (c2, _) -> c < c2 )
 
 test = map ( \ (_,s) -> s) hoho
+
+
+--Task 3
+
+type Quote = (String, Double)
+
+--bestCompany :: [Quote] -> (String, Double, Double)
+
+
+--[
+--  [("Acme", ..), ("Acme", ..)]
+--]
+
+
+addCompanyTuple (x:xs) (name, price)
+  | fst (head x) == name = ((name, price) : x) : xs
+  | otherwise = x : (addCompanyTuple xs (name,price))
+
+
+makeCompanies :: [Quote] -> [[Quote]] -> [[Quote]]
+makeCompanies [] res = res
+makeCompanies ((name,price):xs) res
+  | name `elem` map ( \ x -> fst (head x) ) res = makeCompanies xs (addCompanyTuple res (name,price))
+  | otherwise = (makeCompanies xs ([(name,price)] : res))
+
+
+-- | fromIntegral(sum (map snd comp1)) / fromIntegral(length comp1) > fromIntegral(sum (map snd comp2)) / fromIntegral(length comp2) = comp1
+
+-- | sum (map snd comp1) / genericLength comp1 > sum (map snd comp2) / genericLength comp2 = True
+getBiggerCompany comp1 [] = True
+getBiggerCompany [] comp2 = False
+getBiggerCompany comp1 comp2
+  | sum (map snd comp1) / (fromIntegral (length comp1)) > sum (map snd comp2) / (fromIntegral (length comp2)) = True
+  | otherwise = False
+
+
+--getAvg :: [Double] =>
+--getAvg lst = (sum lst) / (length lst)
+
+getMaxCompany [] res = res
+getMaxCompany (x:xs) res
+  | getBiggerCompany x res = getMaxCompany xs x
+  | otherwise = getMaxCompany xs res
+
+
+final lst = (fst (head maxComp), x, y)
+  where maxComp = getMaxCompany companies []
+        companies = makeCompanies lst []
+        x = minimum (map snd maxComp)
+        y = maximum (map snd maxComp)
+
+
+bom :: [Quote]
+bom = [("AB", 200), ("AB", 4.2), ("SP", 9.2), ("BC", 3.3)]
+ho = (makeCompanies bom [])
