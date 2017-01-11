@@ -6,6 +6,11 @@
       nv
       (op (car l) (foldr op nv (cdr l)))))
 
+(define (my-filter pred? l)
+  (cond ((null? l) '())
+        ((not (pred? (car l))) (my-filter pred? (cdr l)))
+        (else (cons (car l) (my-filter pred? (cdr l))))))
+
 ; малък граф, над който ще тестваме всички функции
 (define G '((a b c d) ; от а има ребра към b,c,d
             (b e f)   ; може да бъде и ориентиран
@@ -85,3 +90,29 @@
 (define (edge-list g)
   (define (make-pairs-single l) (map (lambda (v) (cons (car l) v)) (cdr l)))
   (apply append (map make-pairs-single g)))
+
+
+; task 8 - обръщане на всички ребра в граф
+
+(define (invert g)
+  (define (flip p) (cons (cdr p) (car p)))
+  (make-from-edges (map flip (edge-list g))))
+
+
+; task 9 - обхождане в широчина
+; (bfs 'a G) -> '(a b c d e f g), случайна подредба
+
+; използваме помощна ф-ия, която на всяка "итерация" пази текущото "ниво"
+; и изчислява следващото с друга отделна ф-ия
+
+(define (bfs v g)
+  (define (get-next-level current visited)
+    (apply append (map (lambda (v) (my-filter (lambda (v) (not (member? v visited)))
+                                           (successors v g)))
+                       current)))
+  (define (helper current result)
+    (let ((next (get-next-level current result)))
+      (if (null? next)
+          result
+          (helper next (append result next)))))
+  (helper (list v) (list v)))
