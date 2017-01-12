@@ -50,3 +50,17 @@ longestWord lst
   | null wordsList = []
   | otherwise = foldr1 ( \ x (_ : res) -> x ++ res ) wordsList
   where wordsList = (genListStrings lst (makeStrList lst) [])
+
+
+-- Task 2
+
+isPrime 1 = False
+isPrime n = null [ d | d<-[2..(n-1) ], mod n d == 0 ]
+
+primes = [ x | x<-[2..99], isPrime x ]
+
+isSquare n = not (null [ x | x<-[1..n], x*x == n ])
+
+squares = [ x | x<-[2..99], isSquare x ]
+
+--myFunc = length ( [ x | x<-[2..99]  ] )

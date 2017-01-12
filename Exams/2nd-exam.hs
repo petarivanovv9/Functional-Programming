@@ -66,7 +66,6 @@ type Quote = (String, Double)
 --  [("Acme", ..), ("Acme", ..)]
 --]
 
-
 addCompanyTuple (x:xs) (name, price)
   | fst (head x) == name = ((name, price) : x) : xs
   | otherwise = x : (addCompanyTuple xs (name,price))

@@ -29,3 +29,27 @@ maxDistanceBy f pts = maximum [ f p1 p2 | p1<-pts, p2<-pts ]
 -- -> (5.0,(-1.0,-2.0),(3.0,1.0))
 
 maxDistance1 pts = maximumBy ( \ p@(d1,_,_) q@(d2,_,_) -> compare d1 d2 ) [ (dist p1 p2, p1, p2) | p1<-pts, p2<-pts ]
+
+
+
+--Homework 2
+
+--Task 1
+
+-- > duplicateElements [1, 2, 3]
+-- [1, 1, 2, 2, 3, 3]
+-- > duplicateElements “aasdff”
+-- “aaaassddffff”
+
+duplicateElements [] = []
+duplicateElements (x:xs) = [x] ++ [x] ++ duplicateElements xs
+
+
+--Task 2
+
+-- > slice 2 5 [1..10]
+-- [3, 4, 5, 6]
+-- > slice 0 4 “hello world”
+-- “hello”
+
+slice i j lst = [ lst!!y | y<-[i..j] ]
