@@ -55,3 +55,16 @@ setDiff (x:xs) (y:ys)
   | x == y = setDiff xs ys
   | x < y  = x : setDiff xs (y:ys)
   | x > y  = setDiff (x:xs) ys
+
+
+setSumDiff s1 [] = s1
+setSumDiff [] s2 = s2
+setSumDiff s1 s2 = setUnion (setDiff s1 s2) (setDiff s2 s1)
+
+
+setSum s1 [] = s1
+setSum [] s2 = s2
+setSum (x:xs) (y:ys)
+  | x == y = [x,y] ++ setSum xs ys
+  | x < y  = x : setSum xs (y:ys)
+  | x > y  = y : setSum (x:xs) ys

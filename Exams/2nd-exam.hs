@@ -108,3 +108,44 @@ final lst = (fst (head maxComp), x, y)
 bom :: [Quote]
 bom = [("AB", 200), ("AB", 4.2), ("SP", 9.2), ("BC", 3.3)]
 ho = (makeCompanies bom [])
+
+
+--Task 1
+
+--multisetUnion [1,2,2,3,3,4,5] [2,3,3,3,5,6] -> [1,2,2,3,3,3,4,5,6]
+
+multisetUnion s1 [] = s1
+multisetUnion [] s2 = s2
+multisetUnion (x:xs) (y:ys)
+  | x < y  = x : multisetUnion xs (y:ys)
+  | x > y  = y : multisetUnion (x:xs) ys
+  | x == y = x : multisetUnion xs ys
+
+
+multisetIntersect s1 [] = []
+multisetIntersect [] s2 = []
+multisetIntersect (x:xs) (y:ys)
+  | x < y  = multisetIntersect xs (y:ys)
+  | x > y  = multisetIntersect (x:xs) ys
+  | x == y = x : multisetIntersect xs ys
+
+
+multisetDiff s1 [] = s1
+multisetDiff [] s2 = []
+multisetDiff (x:xs) (y:ys)
+  | x == y = multisetDiff xs ys
+  | x < y  = x : multisetDiff xs (y:ys)
+  | x > y  = multisetDiff (x:xs) ys
+
+
+setSumDiff s1 [] = s1
+setSumDiff [] s2 = s2
+setSumDiff s1 s2 = multisetUnion (multisetDiff s1 s2) (multisetDiff s2 s1)
+
+
+multisetSum s1 [] = s1
+multisetSum [] s2 = s2
+multisetSum (x:xs) (y:ys)
+  | x == y = [x,y] ++ multisetSum xs ys
+  | x < y  = x : multisetSum xs (y:ys)
+  | x > y  = y : multisetSum (x:xs) ys
