@@ -28,3 +28,16 @@ makeSet lst = helper lst []
         helper (x:xs) res
           | x `elem` res = helper xs res
           | otherwise    = helper xs (x:res)
+
+
+--Task 7
+
+--histogram [1,1,2,3,3,3,4,2,2,2,1,1] -> [(1,4),(2,4),(3,3),(4,1)]
+
+--1) makeSet
+--2) occurences - filter
+--3) make tuple
+
+histogram lst = [ (elem,(count elem lst)) | elem<-nums ]
+  where nums = makeSet lst
+        count elem lst = length (filter ( \ x -> x == elem ) lst)
