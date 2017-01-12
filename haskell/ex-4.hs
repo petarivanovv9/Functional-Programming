@@ -26,3 +26,32 @@ matchLengths lst = allEquals (map length lst)
   where allEquals l = all ( \ x -> x == head l ) l
 
 
+--Task 7
+
+--setUnion [1,2,3,5] [2,4,5,6,7] -> [1,2,3,4,5,6,7]
+--setIntersect [1,2,3,5] [2,4,5,6,7] -> [2,5]
+--setDiff [1,2,3,5] [2,4,5,6,7] -> [1,3]
+--setDiff [2,4,5,6,7] [1,2,3,5] -> [4,6,7]
+
+setUnion s1 [] = s1
+setUnion [] s2 = s2
+setUnion (x:xs) (y:ys)
+  | x < y  = x : setUnion xs (y:ys)
+  | x > y  = y : setUnion (x:xs) ys
+  | x == y = x : setUnion xs ys
+
+
+setIntersect s1 [] = []
+setIntersect [] s2 = []
+setIntersect (x:xs) (y:ys)
+  | x < y  = setIntersect xs (y:ys)
+  | x > y  = setIntersect (x:xs) ys
+  | x == y = x : setIntersect xs ys
+
+
+setDiff s1 [] = s1
+setDiff [] s2 = []
+setDiff (x:xs) (y:ys)
+  | x == y = setDiff xs ys
+  | x < y  = x : setDiff xs (y:ys)
+  | x > y  = setDiff (x:xs) ys
