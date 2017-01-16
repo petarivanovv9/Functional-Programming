@@ -67,15 +67,12 @@
   (if (string=? (caddr adj) (caddr noun))
       #t #f))
 
-(define plural '("м" "ж" "ср" "ед"))
-
 (define (isPlural word)
-  (if (member? (caddr word) plural)
-      #f #t))
+  (string=? (caddr word) "мн"))
 
 (define (check-noun-verb noun verb)
   (if (or (and (not (isPlural noun)) (not (isPlural verb)))
-          (and (isPlural noun) (isPlural noun)))
+          (and (isPlural noun) (isPlural verb)))
       #t #f))
 
 (define getRandomSentence-format1
@@ -99,7 +96,7 @@
     (if (and
           (and (not (string=? (car (car two-nouns)) (car (cdr two-nouns))))
                (and (check-adj-noun (car two-adjectives) (car two-nouns)) (check-adj-noun (cdr two-adjectives) (cdr two-nouns))))
-          (string=? (caddr verb) "мн"))
+          (isPlural verb))
         (apply string-append "" (append
                                  (list (string-titlecase (car (car two-adjectives))) " " (car (car two-nouns)) " и " (car (cdr two-adjectives)) " " (car (cdr two-nouns)))
                                  (list " " (car verb) " " (car adverb) ".")))
