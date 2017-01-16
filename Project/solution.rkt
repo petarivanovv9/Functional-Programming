@@ -67,11 +67,15 @@
   (if (string=? (caddr adj) (caddr noun))
       #t #f))
 
-; тук може да изнеса тези caddr, caddr в отделни ф-ии
-; като например isPlural, род и т.н
+(define plural '("м" "ж" "ср" "ед"))
+
+(define (isPlural word)
+  (if (member? (caddr word) plural)
+      #f #t))
+
 (define (check-noun-verb noun verb)
-  (if (or (and (or (or (string=? (caddr noun) "м") (string=? (caddr noun) "ж")) (string=? (caddr noun) "ср")) (string=? (caddr verb) "ед"))
-          (and (string=? (caddr noun) "мн") (string=? (caddr verb) "мн")))
+  (if (or (and (not (isPlural noun)) (not (isPlural verb)))
+          (and (isPlural noun) (isPlural noun)))
       #t #f))
 
 (define getRandomSentence-format1
