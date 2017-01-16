@@ -1,8 +1,12 @@
 #lang racket
 
-(define temp '(("към небето" "д") ("куче" "п" "ср") ("лае" "с" "ед")
-               ("птиците" "д") ("зелените" "о" "мн") ("жаби" "п" "мн")
-               ("гледат" "с" "мн") ("голямото" "о" "ср")))
+;(define temp '(("към небето" "д") ("куче" "п" "ср") ("лае" "с" "ед")
+;               ("птиците" "д") ("зелените" "о" "мн") ("жаби" "п" "мн")
+;               ("гледат" "с" "мн") ("голямото" "о" "ср")))
+
+(define (member? x l)
+  (if (member x l)
+      #t #f))
 
 (define (extractNouns l)
   (filter (lambda (x) (if (string=? (cadr x) "п") #t #f)) l))
@@ -26,11 +30,28 @@
     (cond [(= n 0) (car l)]
           [else (nth-elem (- n 1) (cdr l))])))
 
+(define (makeLongAdverb adverb-list)
+  (define (helper lst adverb)
+    (if (null? (cdr lst))
+        adverb
+        (string-append (car lst) " " (helper (cdr lst) adverb))))
+  (append (list (string-normalize-spaces (helper adverb-list ""))) (list "д")))
 
-;reading input
-;(define temp (call-with-input-file "input.txt" read))
-;(define temp (file->lines "input.txt"))
+(define (parseLineToList line)
+  (let [(line-list (string-split line))]
+    (if (and (member? "д" line-list) (> (length line-list) 2))
+        (makeLongAdverb line-list)
+        line-list)))
 
+(define (readInputFile)
+  (define file (open-input-file "input.txt"))
+  (define (helper res)
+    (let [(line (read-line file))]
+      (cond [(equal? line eof) res]
+            [else (cons (parseLineToList line) (helper res))])))
+  (helper '()))
+
+(define temp (readInputFile))
 
 (define nouns (extractNouns temp))
 (define adjectives (extractAdjectives temp))
