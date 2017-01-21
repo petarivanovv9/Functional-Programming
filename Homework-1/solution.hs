@@ -61,3 +61,16 @@ oddNums = [ x | x<-[10..99], odd x, not(isPrime x) ]
 myFunc = [ x | x<-[10..99], y<-primes, z<-squares, x==y+(2*z) ]
 
 result = length([ x | x<-(oddNums), not(x `elem` myFunc) ])
+
+
+--Task 5
+
+makeTreeLevel [] = []
+makeTreeLevel (x:xs) = (x + (head xs)) : (makeTreeLevel (tail xs))
+
+makeTree l = helper [l]
+  where helper lst
+          | length (last lst) == 1 = lst
+          | otherwise = helper (lst ++ [makeTreeLevel (last lst)])
+
+fenwick lst = (mapM_) print (reverse (makeTree lst))

@@ -13,7 +13,7 @@
 ;;; task 3
 (define (divisors n)
   (define (helper n k res)
-    (cond 
+    (cond
       ((< n k) res)
       ((= (modulo n k) 0) (helper (/ n (expt (car (count-divisor n k)) (cadr (count-divisor n k)))) (+ k 1) (cons (count-divisor n k) res)))
       (else (helper n (+ k 1) res))
@@ -60,7 +60,7 @@
 )
 
 (define (flatten l)
-  (cond 
+  (cond
     ((null? l) '())
     ((pair? l) (append (flatten (car l)) (flatten (cdr l))))
     (else (list l))
